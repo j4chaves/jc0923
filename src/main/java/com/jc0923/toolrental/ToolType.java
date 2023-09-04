@@ -10,6 +10,8 @@ public class ToolType {
 	private boolean hasWeekendCharge;
 	private boolean hasHolidayCharge;
 	
+	public ToolType() {}
+	
 	public ToolType(String toolTypeName, BigDecimal dailyRentalCharge, 
 			boolean hasWeekdayCharge, boolean hasWeekendCharge, boolean hasHolidayCharge) {
 		this.toolTypeName = toolTypeName;

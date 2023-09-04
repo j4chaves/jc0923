@@ -1,0 +1,23 @@
+[
+    {
+        "toolTypeName" : "Ladder",
+        "dailyRentalCharge" : 1.99,
+        "hasWeekdayCharge" : true,
+        "hasWeekendCharge" : true,
+        "hasHolidayCharge" : false
+    },
+    {
+        "toolTypeName" : "Chainsaw",
+        "dailyRentalCharge" : 1.49,
+        "hasWeekdayCharge" : true,
+        "hasWeekendCharge" : false,
+        "hasHolidayCharge" : true
+    },
+    {
+        "toolTypeName" : "JackHammer",
+        "dailyRentalCharge" : 2.99,
+        "hasWeekdayCharge" : true,
+        "hasWeekendCharge" : false,
+        "hasHolidayCharge" : false
+    }
+]
