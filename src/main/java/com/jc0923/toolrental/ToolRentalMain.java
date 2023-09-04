@@ -8,6 +8,11 @@ public class ToolRentalMain
 {
     public static void main( String[] args )
     {
-        System.out.println( "JC Tool Rental" );
+    	MainMenu mainMenu = new MainMenu();
+    	while(true) {
+    		mainMenu.displayHomeMenuToConsole();
+    	}
     }
+    
+    
 }
