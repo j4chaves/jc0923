@@ -4,8 +4,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
@@ -75,15 +77,19 @@ public class MainMenu {
 		System.out.println("");
 		System.out.println("Available Tools - to be implemented");
 		
-		try (FileReader fileReader = new FileReader("src/main/resources/ToolTypes.json")) {
+		try {
+			FileReader fileReader = new FileReader("src/main/resources/ToolTypes.json");
 			JSONParser jsonParser = new JSONParser();
 			Object object = jsonParser.parse(fileReader);
-			JSONArray toolTypesJSONArray = (JSONArray) object;
 			
-			List<ToolType> toolTypesList = new ArrayList<ToolType>();
-			Iterator<JSONObject> iterator = toolTypesJSONArray.iterator();
-			while (iterator.hasNext()) {
-				JSONObject toolTypeJsonObject = (JSONObject)iterator.next();
+			/*
+			 * Load in tooltypes.json data
+			 */
+			JSONArray toolTypesJSONArray = (JSONArray) object;
+			Map<String, ToolType> toolTypesMap = new HashMap<String, ToolType>();
+			Iterator<JSONObject> toolTypeIterator = toolTypesJSONArray.iterator();
+			while (toolTypeIterator.hasNext()) {
+				JSONObject toolTypeJsonObject = (JSONObject)toolTypeIterator.next();
 				String toolTypeName = (String)toolTypeJsonObject.get("toolTypeName");
 				Double dailyRentalCharge = (Double) toolTypeJsonObject.get("dailyRentalCharge");
 				boolean hasWeekdayCharge = (boolean) toolTypeJsonObject.get("hasWeekdayCharge");
@@ -91,11 +97,31 @@ public class MainMenu {
 				boolean hasHolidayCharge = (boolean) toolTypeJsonObject.get("hasHolidayCharge");
 				
 				ToolType toolType = new ToolType(toolTypeName, BigDecimal.valueOf(dailyRentalCharge), hasWeekdayCharge, hasWeekendCharge, hasHolidayCharge);
-				toolTypesList.add(toolType);
+				toolTypesMap.put(toolType.getToolTypeName(), toolType);
+			}
+			toolTypesMap.forEach((key, value) -> System.out.println(key + " " + value.toString()));
+			
+
+			/*
+			 * Load in tools.json data
+			 */
+			fileReader = new FileReader("src/main/resources/Tools.json");
+			JSONArray toolsJSONArray = (JSONArray) object;
+			List<Tool> toolsList = new ArrayList<Tool>();
+			Iterator<JSONObject> toolIterator = toolsJSONArray.iterator();;
+			while (toolIterator.hasNext()) {
+				JSONObject toolJsonObject = (JSONObject)toolIterator.next();
+				String toolCode = (String)toolJsonObject.get("toolCode");
+				String toolTypeString = (String) toolJsonObject.get("toolType");
+				String brand = (String) toolJsonObject.get("brand");
+				
+				ToolType toolType = toolTypesMap.get(toolTypeString);
+				
+				Tool tool = new Tool(toolCode, toolType, brand);
+				toolsList.add(tool);
 			}
 			
-			System.out.println("Now printing tooltypes: ");
-			toolTypesList.forEach(t -> System.out.println(t.toString()));
+			toolsList.forEach(t -> System.out.println(t.toString()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
