@@ -109,7 +109,12 @@ public class MainMenuView implements Displayable {
 			toolsList.add(tool);
 		}
 
-		toolsList.forEach(t -> System.out.println(t.toString()));
+		toolsList.forEach(t -> {
+			System.out.print("Tool Code: " + t.getToolCode() + "\t");
+			System.out.print("Tool Type: " + t.getTooltype().getToolTypeName() + "\t");
+			System.out.print("Brand: " + t.getBrand() + "\t");
+			System.out.println("");
+		});
 		
 	}
 	

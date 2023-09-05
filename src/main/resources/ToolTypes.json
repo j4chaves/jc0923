@@ -14,7 +14,7 @@
         "hasHolidayCharge" : true
     },
     {
-        "toolTypeName" : "JackHammer",
+        "toolTypeName" : "Jackhammer",
         "dailyRentalCharge" : 2.99,
         "hasWeekdayCharge" : true,
         "hasWeekendCharge" : false,
