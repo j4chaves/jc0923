@@ -1,4 +1,4 @@
-package com.jc0923.toolrental;
+package com.jc0923.toolrental.views;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -16,11 +16,15 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-public class MainMenu {
+import com.jc0923.toolrental.domain.Tool;
+import com.jc0923.toolrental.domain.ToolType;
+import com.jc0923.toolrental.interfaces.Displayable;
 
-	public MainMenu() {}
+public class MainMenuView implements Displayable {
+
+	public MainMenuView() {}
 	
-	public void displayHomeMenuToConsole() {
+	public void display() {
 		System.out.println("");
     	System.out.println("JC Tool Rental");
         System.out.println("");

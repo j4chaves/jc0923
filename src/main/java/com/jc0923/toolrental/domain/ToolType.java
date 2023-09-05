@@ -1,4 +1,4 @@
-package com.jc0923.toolrental;
+package com.jc0923.toolrental.domain;
 
 import java.math.BigDecimal;
 
