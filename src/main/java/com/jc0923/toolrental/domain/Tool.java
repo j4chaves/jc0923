@@ -11,6 +11,9 @@ public class Tool {
 		this.tooltype = tooltype;
 		this.brand = brand;
 	}
+	
+	public Tool() {}
+	
 	public String getToolCode() {
 		return toolCode;
 	}
