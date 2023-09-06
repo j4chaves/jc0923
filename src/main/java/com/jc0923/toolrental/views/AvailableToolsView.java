@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.jc0923.toolrental.domain.Tool;
 import com.jc0923.toolrental.interfaces.Displayable;
+import com.jc0923.toolrental.util.Cart;
 import com.jc0923.toolrental.util.Inventory;
 import com.jc0923.toolrental.util.UserInputHandler;
 
@@ -45,7 +46,15 @@ public class AvailableToolsView implements Displayable {
 			System.out.println("\n\n");
 			display();
 		} else {
-//			Cart.addToCart(Inventory.toolsList.get(menuSelection - 1));
+			boolean canAddToCart = Cart.addToolToCart(Inventory.toolsList.get(menuSelection - 1));
+			UserInputHandler.clearConsole();
+			
+			if (canAddToCart) {
+				System.out.println("Successfully added to cart!");
+			} else {
+				System.out.println("The selected tool is already in your cart");
+				display();
+			}
 		}
 		
 	}

@@ -17,6 +17,8 @@ import com.jc0923.toolrental.domain.converters.ToolTypeConverter;
 public class Inventory {
 
 	public static List<Tool> toolsList = new ArrayList<Tool>();
+	
+	private Inventory() {}
 
 	public static void loadInventory() {
 
