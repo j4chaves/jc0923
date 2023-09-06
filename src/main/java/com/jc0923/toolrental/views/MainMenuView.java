@@ -1,9 +1,7 @@
 package com.jc0923.toolrental.views;
 
-import java.util.NoSuchElementException;
-import java.util.Scanner;
-
 import com.jc0923.toolrental.interfaces.Displayable;
+import com.jc0923.toolrental.util.UserInputHandler;
 
 public class MainMenuView implements Displayable {
 
@@ -20,10 +18,11 @@ public class MainMenuView implements Displayable {
         System.out.println("4. Exit");
         System.out.println("");
         
-        int menuSelection = getUserMenuInput();
+        int menuSelection = UserInputHandler.getUserInput();
         	
 		switch (menuSelection) {
 		case 1:
+			UserInputHandler.clearConsole();
 			new AvailableToolsView().display();
 			break;
 
@@ -41,25 +40,13 @@ public class MainMenuView implements Displayable {
 			System.exit(1);
 
 		default:
+			UserInputHandler.clearConsole();
 			System.out.println("Invalid Menu Selection");
-			System.out.println("");
+			System.out.println("\n\n");
 			break;
 
 		}
     }
-
-	private int getUserMenuInput() {
-		int input = 0;
-		System.out.print("Input: ");
-		Scanner scanner = new Scanner(System.in);
-		
-		try {
-			input = scanner.nextInt();
-		} catch (NoSuchElementException e) {
-			input = 999;
-		}
-		return input;
-	}
 	
 	private void displayCart() {
 		System.out.println("Cart - to be implemented");
