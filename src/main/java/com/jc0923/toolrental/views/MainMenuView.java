@@ -37,7 +37,7 @@ public class MainMenuView implements Displayable {
         	
 		switch (menuSelection) {
 		case 1:
-			displayAvailableTools();
+			new AvailableToolsView().display();
 			break;
 
 		case 2:
@@ -72,50 +72,6 @@ public class MainMenuView implements Displayable {
 			input = 999;
 		}
 		return input;
-	}
-	
-	
-	private void displayAvailableTools() {
-		System.out.println("");
-		System.out.println("Available Tools - to be implemented");
-		
-		
-		/*
-		 * Load in tooltypes.json data
-		 */
-		JSONArray toolTypesJSONArray = JSONFileReader.readJsonFile("src/main/resources/ToolTypes.json");
-		Map<String, ToolType> toolTypesMap = new HashMap<String, ToolType>();
-		Iterator<JSONObject> toolTypeIterator = toolTypesJSONArray.iterator();
-		while (toolTypeIterator.hasNext()) {
-			JSONObject toolTypeJsonObject = (JSONObject) toolTypeIterator.next();
-			ToolType toolType = ToolTypeConverter.fromFile(toolTypeJsonObject);
-			toolTypesMap.put(toolType.getToolTypeName(), toolType);
-		}
-
-		/*
-		 * Load in tools.json data
-		 */
-		JSONArray toolsJSONArray = JSONFileReader.readJsonFile("src/main/resources/Tools.json");
-		List<Tool> toolsList = new ArrayList<Tool>();
-		Iterator<JSONObject> toolIterator = toolsJSONArray.iterator();
-		while (toolIterator.hasNext()) {
-			JSONObject toolJsonObject = (JSONObject) toolIterator.next();
-			
-			String toolTypeString = (String) toolJsonObject.get("toolType");
-			ToolType toolType = toolTypesMap.get(toolTypeString);	// TODO - this needs to be in converter
-
-			Tool tool = new ToolConverter().fromFile(toolJsonObject);
-			tool.setTooltype(toolType);
-			toolsList.add(tool);
-		}
-
-		toolsList.forEach(t -> {
-			System.out.print("Tool Code: " + t.getToolCode() + "\t");
-			System.out.print("Tool Type: " + t.getTooltype().getToolTypeName() + "\t");
-			System.out.print("Brand: " + t.getBrand() + "\t");
-			System.out.println("");
-		});
-		
 	}
 	
 	private void displayCart() {
