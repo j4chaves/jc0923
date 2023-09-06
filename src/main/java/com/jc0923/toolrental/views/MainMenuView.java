@@ -1,22 +1,9 @@
 package com.jc0923.toolrental.views;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
-import com.jc0923.toolrental.domain.Tool;
-import com.jc0923.toolrental.domain.ToolType;
-import com.jc0923.toolrental.domain.converters.ToolConverter;
-import com.jc0923.toolrental.domain.converters.ToolTypeConverter;
 import com.jc0923.toolrental.interfaces.Displayable;
-import com.jc0923.toolrental.util.JSONFileReader;
 
 public class MainMenuView implements Displayable {
 
