@@ -4,10 +4,6 @@ import com.jc0923.toolrental.util.Inventory;
 import com.jc0923.toolrental.util.UserInputHandler;
 import com.jc0923.toolrental.views.MainMenuView;
 
-/**
- * Hello world!
- *
- */
 public class ToolRentalMain 
 {
     public static void main( String[] args )

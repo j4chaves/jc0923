@@ -18,8 +18,12 @@ public class MainMenuView implements Displayable {
         System.out.println("4. Exit");
         System.out.println("");
         
-        int menuSelection = UserInputHandler.getUserInput();
-        	
+        handleUserInput();
+    }
+	
+	public void handleUserInput() {
+		int menuSelection = UserInputHandler.getUserInput();
+    	
 		switch (menuSelection) {
 		case 1:
 			UserInputHandler.clearConsole();
@@ -46,7 +50,7 @@ public class MainMenuView implements Displayable {
 			break;
 
 		}
-    }
+	}
 	
 	private void displayCart() {
 		System.out.println("Cart - to be implemented");
