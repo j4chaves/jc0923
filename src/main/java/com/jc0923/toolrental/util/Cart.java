@@ -23,4 +23,17 @@ public class Cart {
 			return false;
 		}
 	}
+
+	public static boolean removeToolFromCart(int index) {
+		if (!toolsInCart.isEmpty() && index >= 0) {
+			if (toolsInCart.size() == 1) {
+				toolsInCart.remove(0);
+			} else {
+				toolsInCart.remove(index);
+			}
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

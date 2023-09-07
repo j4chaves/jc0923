@@ -31,7 +31,8 @@ public class MainMenuView implements Displayable {
 			break;
 
 		case 2:
-			displayCart();
+			UserInputHandler.clearConsole();
+			new CartView().display();
 			break;
 
 		case 3:
@@ -50,10 +51,6 @@ public class MainMenuView implements Displayable {
 			break;
 
 		}
-	}
-	
-	private void displayCart() {
-		System.out.println("Cart - to be implemented");
 	}
 	
 	private void displayCheckout() {
