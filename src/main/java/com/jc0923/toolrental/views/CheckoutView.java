@@ -10,20 +10,24 @@ import com.jc0923.toolrental.util.UserInputHandler;
 public class CheckoutView implements Displayable {
 	
 	private Checkout checkout = new Checkout();
+	private boolean returnToPreviousView = false;
 
 	@Override
 	public void display() {
-		System.out.println("Checkout");
-		System.out.println("========");
-		System.out.println("");
-		System.out.println("Menu:");
-        System.out.println("1. Enter Number of Rental Days");
-        System.out.println("2. Enter Discount Percentage");
-        System.out.println("3. Enter Checkout Date");
-        System.out.println("4. Generate Rental Agreement");
-        System.out.println("Q. Return to Main Menu - WARNING: Doing so will reset previously entered Checkout information");
 		
-		handleUserInput();
+		while (!returnToPreviousView) {
+			System.out.println("Checkout");
+			System.out.println("========");
+			System.out.println("");
+			System.out.println("Menu:");
+			System.out.println("1. Enter Number of Rental Days");
+			System.out.println("2. Enter Discount Percentage");
+			System.out.println("3. Enter Checkout Date");
+			System.out.println("4. Generate Rental Agreement");
+			System.out.println("Q. Return to Main Menu - WARNING: Doing so will reset previously entered Checkout information");
+
+			handleUserInput();
+		}
 	}
 
 	@Override
@@ -34,6 +38,7 @@ public class CheckoutView implements Displayable {
 			if (input.equalsIgnoreCase("Q")) {
 				// Return to main menu
 				UserInputHandler.clearConsole();
+				returnToPreviousView = true;
 				return;
 			} else {
 				UserInputHandler.clearConsole();
@@ -75,8 +80,6 @@ public class CheckoutView implements Displayable {
 				break;
 
 			}
-		} else {
-			
 		}
 	}
 
