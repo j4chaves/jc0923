@@ -15,7 +15,7 @@ public class CheckoutView implements Displayable {
 	public void display() {
 		System.out.println("Checkout");
 		System.out.println("========");
-		System.out.println("\n");
+		System.out.println("");
 		System.out.println("Menu:");
         System.out.println("1. Enter Number of Rental Days");
         System.out.println("2. Enter Discount Percentage");

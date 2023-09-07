@@ -1,6 +1,7 @@
 package com.jc0923.toolrental.views;
 
 import com.jc0923.toolrental.interfaces.Displayable;
+import com.jc0923.toolrental.util.Cart;
 import com.jc0923.toolrental.util.UserInputHandler;
 
 public class MainMenuView implements Displayable {
@@ -45,13 +46,16 @@ public class MainMenuView implements Displayable {
 
 		case 3:
 			UserInputHandler.clearConsole();
-			new CheckoutView().display();;
+			if (!Cart.toolsInCart.isEmpty()) {
+				new CheckoutView().display();;
+			} else {
+				System.out.println("You cannot proceed to checkout with an empty cart");
+			}
 			break;
 
 		default:
 			UserInputHandler.clearConsole();
 			System.out.println("Invalid Menu Selection");
-			System.out.println("\n\n");
 			break;
 
 		}

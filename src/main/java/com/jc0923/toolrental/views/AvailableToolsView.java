@@ -27,7 +27,7 @@ public class AvailableToolsView implements Displayable {
 		}
 		
 		System.out.println("\n");
-		System.out.println("Enter corresponding number of tool you wish to rent. Enter 9 to return to the main menu");
+		System.out.println("Enter corresponding number of tool you wish to rent. Enter Q to return to the main menu");
 		
 		handleUserInput();
 

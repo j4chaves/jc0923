@@ -29,6 +29,7 @@ public class CartView implements Displayable{
 				System.out.println("");
 			}
 			System.out.println("====");
+			System.out.println("");
 			System.out.println("To remove an item from your cart, enter the item's corresponding number.");
 			System.out.println("To return to the main menu, enter Q ");
 		}
