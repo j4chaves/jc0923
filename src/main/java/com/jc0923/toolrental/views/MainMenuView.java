@@ -15,14 +15,22 @@ public class MainMenuView implements Displayable {
         System.out.println("1. View available tools");
         System.out.println("2. View cart");
         System.out.println("3. Checkout");
-        System.out.println("4. Exit");
+        System.out.println("Q. Exit");
         System.out.println("");
         
         handleUserInput();
     }
 	
 	public void handleUserInput() {
-		int menuSelection = UserInputHandler.getUserInput();
+		String input = UserInputHandler.getUserInput();
+		
+		if (input.equalsIgnoreCase("Q")) {
+			System.out.println("Thank you for choosing JC Tool Rental!");
+			System.out.println("Have a great day!");
+			System.exit(1);
+		}
+		
+		int menuSelection = UserInputHandler.isValidIntInput(input) ? Integer.parseInt(input) : 999;	// 999 is will not be a menu option and trigger default case
     	
 		switch (menuSelection) {
 		case 1:
@@ -38,11 +46,6 @@ public class MainMenuView implements Displayable {
 		case 3:
 			displayCheckout();
 			break;
-
-		case 4:
-			System.out.println("Thank you for choosing JC Tool Rental!");
-			System.out.println("Have a great day!");
-			System.exit(1);
 
 		default:
 			UserInputHandler.clearConsole();

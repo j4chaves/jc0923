@@ -30,7 +30,7 @@ public class CartView implements Displayable{
 			}
 			System.out.println("====");
 			System.out.println("To remove an item from your cart, enter the item's corresponding number.");
-			System.out.println("To return to the main menu, enter 9 ");
+			System.out.println("To return to the main menu, enter Q ");
 		}
 		
 		handleUserInput();
@@ -39,25 +39,39 @@ public class CartView implements Displayable{
 
 	@Override
 	public void handleUserInput() {
-		int menuSelection = UserInputHandler.getUserInput();
+		String input = UserInputHandler.getUserInput();
 		
-		if (menuSelection == 9) {
-			// Return to main menu
-			return;
-		} else if (menuSelection > Cart.toolsInCart.size()) {
-			UserInputHandler.clearConsole();
-			System.out.println("Invalid Menu Selection");
-			System.out.println("\n\n");
-			display();
+		if (!UserInputHandler.isValidIntInput(input)) {
+			if (input.equalsIgnoreCase("Q")) {
+				// Return to main menu
+				return;
+			} else {
+				UserInputHandler.clearConsole();
+				System.out.println("Invalid Input");
+				System.out.println("\n\n");
+				display();
+			}
 		} else {
-			boolean canRemoveFromCart = Cart.removeToolFromCart(menuSelection - 1);
-			UserInputHandler.clearConsole();
-			
-			if (canRemoveFromCart) {
+
+			int menuSelection = UserInputHandler.isValidIntInput(input) ? Integer.parseInt(input) : 999;	// 999 is will not be a menu option and trigger default case
+
+			if (menuSelection == 9) {
+
+			} else if (menuSelection > Cart.toolsInCart.size()) {
+				UserInputHandler.clearConsole();
+				System.out.println("Invalid Menu Selection");
+				System.out.println("\n\n");
 				display();
 			} else {
-				System.out.println("Error removing tool from cart");
-				display();
+				boolean canRemoveFromCart = Cart.removeToolFromCart(menuSelection - 1);
+				UserInputHandler.clearConsole();
+
+				if (canRemoveFromCart) {
+					display();
+				} else {
+					System.out.println("Error removing tool from cart");
+					display();
+				}
 			}
 		}
 	}

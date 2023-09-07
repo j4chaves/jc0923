@@ -35,25 +35,38 @@ public class AvailableToolsView implements Displayable {
 
 	@Override
 	public void handleUserInput() {
-		int menuSelection = UserInputHandler.getUserInput();
-		
-		if (menuSelection == 9) {
-			// Return to main menu
-			return;
-		} else if (menuSelection > numberOfAvailableTools) {
-			UserInputHandler.clearConsole();
-			System.out.println("Invalid Menu Selection");
-			System.out.println("\n\n");
-			display();
-		} else {
-			boolean canAddToCart = Cart.addToolToCart(Inventory.toolsList.get(menuSelection - 1));
-			UserInputHandler.clearConsole();
-			
-			if (canAddToCart) {
-				System.out.println("Successfully added to cart!");
+		String input = UserInputHandler.getUserInput();
+
+		if (!UserInputHandler.isValidIntInput(input)) {
+			if (input.equalsIgnoreCase("Q")) {
+				UserInputHandler.clearConsole();
+				// Return to main menu
+				return;
 			} else {
-				System.out.println("The selected tool is already in your cart");
+				UserInputHandler.clearConsole();
+				System.out.println("Invalid Input");
+				System.out.println("\n\n");
 				display();
+			}
+		} else {
+
+			int menuSelection = UserInputHandler.isValidIntInput(input) ? Integer.parseInt(input) : 999;	// 999 is will not be a menu option and trigger default case
+
+			if (menuSelection > numberOfAvailableTools) {
+				UserInputHandler.clearConsole();
+				System.out.println("Invalid Menu Selection");
+				System.out.println("\n\n");
+				display();
+			} else {
+				boolean canAddToCart = Cart.addToolToCart(Inventory.toolsList.get(menuSelection - 1));
+				UserInputHandler.clearConsole();
+
+				if (canAddToCart) {
+					System.out.println("Successfully added to cart!");
+				} else {
+					System.out.println("The selected tool is already in your cart");
+					display();
+				}
 			}
 		}
 		
