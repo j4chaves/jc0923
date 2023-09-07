@@ -44,7 +44,8 @@ public class MainMenuView implements Displayable {
 			break;
 
 		case 3:
-			displayCheckout();
+			UserInputHandler.clearConsole();
+			new CheckoutView().display();;
 			break;
 
 		default:
@@ -54,9 +55,5 @@ public class MainMenuView implements Displayable {
 			break;
 
 		}
-	}
-	
-	private void displayCheckout() {
-		System.out.println("Checkout - to be implemented");
 	}
 }

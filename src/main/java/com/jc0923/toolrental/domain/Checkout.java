@@ -6,7 +6,7 @@ public class Checkout {
 	
 	private String toolCode;
 	private int rentalDays;
-	private int discountPercentageWholeNumber;
+	private int discountPercentage;
 	private LocalDate checkoutDate;
 	
 	public Checkout() {}
@@ -27,12 +27,12 @@ public class Checkout {
 		this.rentalDays = rentalDays;
 	}
 
-	public int getDiscountPercentageWholeNumber() {
-		return discountPercentageWholeNumber;
+	public int getDiscountPercentage() {
+		return discountPercentage;
 	}
 
-	public void setDiscountPercentageWholeNumber(int discountPercentageWholeNumber) {
-		this.discountPercentageWholeNumber = discountPercentageWholeNumber;
+	public void setDiscountPercentage(int discountPercentage) {
+		this.discountPercentage = discountPercentage;
 	}
 
 	public LocalDate getCheckoutDate() {
