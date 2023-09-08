@@ -70,7 +70,8 @@ public class CheckoutView implements Displayable {
 			case 4:
 				UserInputHandler.clearConsole();
 				// TODO - Generate Rental Agreement.  Will need to validate Checkout data
-				new CheckoutService().createRentalAgreement(checkout);
+				System.out.println(new CheckoutService().createRentalAgreement(checkout));
+				
 				break;
 
 			default:
@@ -111,9 +112,9 @@ public class CheckoutView implements Displayable {
 			String input = UserInputHandler.getUserInput();
 			
 			if (UserInputHandler.isValidIntInput(input)) {
-				int rentalDays = Integer.parseInt(input);
-				if (rentalDays >= 1) {
-					this.checkout.setDiscountPercentage(rentalDays);
+				int discountPercentage = Integer.parseInt(input);
+				if (discountPercentage >= 0 && discountPercentage <= 100) {
+					this.checkout.setDiscountPercentage(discountPercentage);
 					break;
 				}
 			}
