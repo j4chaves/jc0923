@@ -24,17 +24,23 @@ public class CheckoutService {
 			checkout.setDailyRentalCharge(toolToBeRented.getTooltype().getDailyRentalCharge());
 			
 			int chargeableDays = calculateChargeableDays(checkout.getCheckoutDate(), checkout.getDueDate(), toolToBeRented);
-			BigDecimal individualToolCharge = calculatePreDiscountCharge(chargeableDays, toolToBeRented.getTooltype().getDailyRentalCharge());
-			
 			checkout.setChargeableDays(chargeableDays);
 			
 			//TODO retest preDiscountCharge after chargeableDays is working with holidays
 			BigDecimal preDiscountCharge = calculatePreDiscountCharge(checkout.getChargeableDays(), checkout.getDailyRentalCharge());
 			checkout.setPreDiscountCharge(preDiscountCharge);
 			
+			BigDecimal discountAmount = calculateDiscountAmount(checkout.getDiscountPercentage(), checkout.getPreDiscountCharge());
+			checkout.setDiscountAmount(discountAmount);
+			
+			BigDecimal finalCharge = calculateFinalCharge(checkout.getPreDiscountCharge(), checkout.getDiscountAmount());
+			checkout.setFinalCharge(finalCharge);
+			
 			NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
 			String dailyRentalChargeString = currencyFormat.format(checkout.getDailyRentalCharge().doubleValue());
 			String preDiscountChargeString = currencyFormat.format(checkout.getPreDiscountCharge().doubleValue());
+			String discountAmountString = currencyFormat.format(checkout.getDiscountAmount().doubleValue());
+			String finalChargeString = currencyFormat.format(checkout.getFinalCharge().doubleValue());
 			
 			StringBuilder rentalAgreement = new StringBuilder();
 			rentalAgreement.append("Rental Agreement\n");
@@ -48,9 +54,9 @@ public class CheckoutService {
 			rentalAgreement.append("Daily Rental Charge: " + dailyRentalChargeString + "\n");
 			rentalAgreement.append("Charge Days: " + checkout.getChargeableDays() + "\n");
 			rentalAgreement.append("Pre-Discount Charge: " + preDiscountChargeString + "\n");
-			rentalAgreement.append("Discount Percentage: " + checkout.getDiscountPercentage() + "\n");
-//			rentalAgreement.append("Discount Amount: " + checkout.get() + "\n");
-//			rentalAgreement.append("Final Charge: " + checkout.get() + "\n");
+			rentalAgreement.append("Discount Percentage: " + checkout.getDiscountPercentage() + "%\n");
+			rentalAgreement.append("Discount Amount: " + discountAmountString + "\n");
+			rentalAgreement.append("Final Charge: " + finalChargeString + "\n");
 			
 			
 			return rentalAgreement.toString();
@@ -135,5 +141,17 @@ public class CheckoutService {
 	private BigDecimal calculatePreDiscountCharge(int chargeableDays, BigDecimal dailyRentalCharge) {
 		BigDecimal preDiscountCharge = dailyRentalCharge.multiply(BigDecimal.valueOf(chargeableDays));
 		return preDiscountCharge;
+	}
+	
+	private BigDecimal calculateDiscountAmount(int discountPercentage, BigDecimal preDiscountCharge) {
+		double discount = discountPercentage;
+		discount = discount / 100;
+		BigDecimal discountAmount = preDiscountCharge.multiply(BigDecimal.valueOf(discount));
+		return discountAmount;
+	}
+	
+	private BigDecimal calculateFinalCharge(BigDecimal preDiscountCharge, BigDecimal discountAmount) {
+		BigDecimal finalCharge = preDiscountCharge.subtract(discountAmount);
+		return finalCharge;
 	}
 }
