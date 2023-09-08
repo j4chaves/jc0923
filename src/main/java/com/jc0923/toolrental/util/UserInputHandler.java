@@ -1,6 +1,7 @@
 package com.jc0923.toolrental.util;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
@@ -38,7 +39,7 @@ public class UserInputHandler {
 		boolean isValid;
 		
 		try {
-			LocalDate date = LocalDate.parse(input);
+			LocalDate date = LocalDate.parse(input, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 			LocalDate today = LocalDate.now();
 			if (date.isBefore(today)) {
 				isValid = false;

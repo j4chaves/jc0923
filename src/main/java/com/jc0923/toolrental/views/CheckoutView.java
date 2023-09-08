@@ -1,6 +1,7 @@
 package com.jc0923.toolrental.views;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import com.jc0923.toolrental.domain.Checkout;
 import com.jc0923.toolrental.interfaces.Displayable;
@@ -69,7 +70,6 @@ public class CheckoutView implements Displayable {
 				
 			case 4:
 				UserInputHandler.clearConsole();
-				// TODO - Generate Rental Agreement.  Will need to validate Checkout data
 				System.out.println(new CheckoutService().createRentalAgreement(checkout));
 				
 				break;
@@ -128,17 +128,17 @@ public class CheckoutView implements Displayable {
 	private void checkoutDateInput() {
 		boolean validInput = false;
 		while (!validInput) {
-			System.out.print("What day will you be checking out the equipment (date format: yyyy-mm-dd): ");
+			System.out.print("What day will you be checking out the equipment (date format: mm/dd/yyyy): ");
 			String input = UserInputHandler.getUserInput();
 			
 			if (UserInputHandler.isValidDateInput(input)) {
-				LocalDate checkoutDate = LocalDate.parse(input);
+				LocalDate checkoutDate = LocalDate.parse(input, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 				this.checkout.setCheckoutDate(checkoutDate);
 				break;
 			}
 			
 			UserInputHandler.clearConsole();
-			System.out.println("ERROR: Date should be formatted as yyyy-mm-dd and should be present or future date");
+			System.out.println("ERROR: Date should be formatted as mm/dd/yyyy and should be present or future date");
 			System.out.println("");
 		}
 	}

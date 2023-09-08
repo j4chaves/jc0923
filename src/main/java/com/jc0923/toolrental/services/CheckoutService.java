@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -42,6 +43,10 @@ public class CheckoutService {
 			String discountAmountString = currencyFormat.format(checkout.getDiscountAmount().doubleValue());
 			String finalChargeString = currencyFormat.format(checkout.getFinalCharge().doubleValue());
 			
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
+			String checkoutDateDisplay = formatter.format(checkout.getCheckoutDate());
+			String dueDateDispay = formatter.format(checkout.getDueDate());
+			
 			StringBuilder rentalAgreement = new StringBuilder();
 			rentalAgreement.append("Rental Agreement\n");
 			rentalAgreement.append("================\n");
@@ -49,15 +54,14 @@ public class CheckoutService {
 			rentalAgreement.append("Tool type: " + toolToBeRented.getTooltype().getToolTypeName() + "\n");
 			rentalAgreement.append("Brand: " + toolToBeRented.getBrand() + "\n");
 			rentalAgreement.append("Rental Days: " + checkout.getRentalDays() + "\n");
-			rentalAgreement.append("Checkout Date: " + checkout.getCheckoutDate() + "\n");
-			rentalAgreement.append("Due Date: " + checkout.getDueDate() + "\n");
+			rentalAgreement.append("Checkout Date: " + checkoutDateDisplay + "\n");
+			rentalAgreement.append("Due Date: " + dueDateDispay + "\n");
 			rentalAgreement.append("Daily Rental Charge: " + dailyRentalChargeString + "\n");
 			rentalAgreement.append("Charge Days: " + checkout.getChargeableDays() + "\n");
 			rentalAgreement.append("Pre-Discount Charge: " + preDiscountChargeString + "\n");
 			rentalAgreement.append("Discount Percentage: " + checkout.getDiscountPercentage() + "%\n");
 			rentalAgreement.append("Discount Amount: " + discountAmountString + "\n");
 			rentalAgreement.append("Final Charge: " + finalChargeString + "\n");
-			
 			
 			return rentalAgreement.toString();
 		} else {
@@ -90,7 +94,6 @@ public class CheckoutService {
 		//TODO implement Holidays and holiday logic here to calculate
 		int numberOfChargeableDays = 0;
 		ToolType toolType = tool.getTooltype();
-		
 		
 		ArrayList<DayOfWeek> chargeableDays = new ArrayList<>();
 
