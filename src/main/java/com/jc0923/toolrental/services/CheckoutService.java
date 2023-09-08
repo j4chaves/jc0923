@@ -2,12 +2,15 @@ package com.jc0923.toolrental.services;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import com.jc0923.toolrental.domain.Checkout;
 import com.jc0923.toolrental.domain.Tool;
+import com.jc0923.toolrental.domain.ToolType;
 import com.jc0923.toolrental.util.Cart;
 
 public class CheckoutService {
@@ -19,6 +22,14 @@ public class CheckoutService {
 			
 			BigDecimal dailyRentalCharge = calculateDailyRentalCharge(Cart.toolsInCart);
 			checkout.setDailyRentalCharge(dailyRentalCharge);
+			
+			int chargeableDays = 0;
+			for (Tool tool : Cart.toolsInCart) {
+				chargeableDays += calculateChargeableDays(checkout.getCheckoutDate(), checkout.getDueDate(), tool);
+				BigDecimal individualToolCharge = calculatePreDiscountCharge(chargeableDays, tool.getTooltype().getDailyRentalCharge());
+			}
+			
+			checkout.setChargeableDays(chargeableDays);
 			
 //			int chargeableDays = calculateChargeableDays(checkout.getCheckoutDate(), checkout.getDueDate());
 //			checkout.setChargeableDays(chargeableDays);
@@ -47,7 +58,7 @@ public class CheckoutService {
 			rentalAgreement.append("Checkout Date: " + checkout.getCheckoutDate() + "\n");
 			rentalAgreement.append("Due Date: " + checkout.getDueDate() + "\n");
 			rentalAgreement.append("Daily Rental Charge: " + dailyRentalChargeString + "\n");
-//			rentalAgreement.append("Number of Chargeable Days: " + checkout.get() + "\n");
+			rentalAgreement.append("Number of Chargeable Days: " + checkout.getChargeableDays() + "\n");
 			rentalAgreement.append("Pre-Discount Charge: " + preDiscountChargeString + "\n");
 			rentalAgreement.append("Discount Percentage: " + checkout.getDiscountPercentage() + "\n");
 //			rentalAgreement.append("Discount Amount: " + checkout.get() + "\n");
@@ -69,14 +80,10 @@ public class CheckoutService {
 	private boolean validateCheckout(Checkout checkout) {
 		boolean isValid = false;
 		
-		if (checkout.getRentalDays() >= 1 &&
-				checkout.getCheckoutDate() != null &&
-				(checkout.getDiscountPercentage() >= 0 && 
-				checkout.getDiscountPercentage() <= 100)) {
+		if (checkout.getRentalDays() >= 1 && checkout.getCheckoutDate() != null &&
+				(checkout.getDiscountPercentage() >= 0 && checkout.getDiscountPercentage() <= 100)) {
 			isValid = true;
 		}
-		
-		
 		return isValid;
 	}
 	
@@ -91,6 +98,58 @@ public class CheckoutService {
 			dailyRentalCharge = dailyRentalCharge.add(t.getTooltype().getDailyRentalCharge());
 		}
 		return dailyRentalCharge;
+	}
+	
+	private int calculateChargeableDays(LocalDate checkoutDate, LocalDate dueDate, Tool tool) {
+		//TODO implement Holidays and holiday logic here to calculate
+		int numberOfChargeableDays = 0;
+		ToolType toolType = tool.getTooltype();
+		
+		
+		ArrayList<DayOfWeek> chargeableDays = new ArrayList<>();
+
+		if (toolType.isHasWeekdayCharge()) {
+			chargeableDays.add(DayOfWeek.MONDAY);
+			chargeableDays.add(DayOfWeek.TUESDAY);
+			chargeableDays.add(DayOfWeek.WEDNESDAY);
+			chargeableDays.add(DayOfWeek.THURSDAY);
+			chargeableDays.add(DayOfWeek.FRIDAY);
+
+		}
+
+		if (toolType.isHasWeekendCharge()) {
+			chargeableDays.add(DayOfWeek.SATURDAY);
+			chargeableDays.add(DayOfWeek.SUNDAY);
+		}
+		
+		for (LocalDate d = checkoutDate; d.isBefore(dueDate); d = d.plusDays(1)) {
+			if (chargeableDays.contains(d.getDayOfWeek())) {
+				numberOfChargeableDays += 1;
+			}
+		}
+		
+//		checkoutDate.datesUntil(dueDate).forEach(d -> {
+//			if (days.contains(d.getDayOfWeek())) {
+//				chargeableDays += 1;
+//			}
+//		});
+		
+		
+		//TODO revisit holiday logic
+		// If there are both weekday and weekend charges for the tool, holiday logic can be ignored as they will be charged regardless
+//		if (chargeableDays.size() != 7) {
+//			if (toolType.isHasHolidayCharge()) {
+//				if (HolidayService.isIndependenceDayInDateRange(checkoutDate, dueDate)) {
+//					chargeableDays += 1;
+//				}
+//
+//				if (HolidayService.isLaborDayInDateRange(checkoutDate, dueDate) && toolType.isHasWeekdayCharge()) {
+//					chargeableDays += 1;
+//				}
+//			}
+//		}
+		
+		return numberOfChargeableDays;
 	}
 	
 	private BigDecimal calculatePreDiscountCharge(int chargeableDays, BigDecimal dailyRentalCharge) {
