@@ -46,7 +46,8 @@ public class MainMenuView implements Displayable {
 
 		case 3:
 			UserInputHandler.clearConsole();
-			if (!Cart.toolsInCart.isEmpty()) {
+//			if (!Cart.toolInCart.isEmpty()) {
+			if (Cart.toolInCart != null) {
 				new CheckoutView().display();;
 			} else {
 				System.out.println("You cannot proceed to checkout with an empty cart");
