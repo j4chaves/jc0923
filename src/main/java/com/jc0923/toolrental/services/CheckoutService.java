@@ -117,26 +117,13 @@ public class CheckoutService {
 			}
 		}
 		
-//		checkoutDate.datesUntil(dueDate).forEach(d -> {
-//			if (days.contains(d.getDayOfWeek())) {
-//				chargeableDays += 1;
-//			}
-//		});
+		if (HolidayService.isIndependenceDayInDateRange(checkoutDate, dueDate) && !tool.getTooltype().isHasHolidayCharge()) {
+			numberOfChargeableDays -= 1;
+		}
 		
-		
-		//TODO revisit holiday logic
-		// If there are both weekday and weekend charges for the tool, holiday logic can be ignored as they will be charged regardless
-//		if (chargeableDays.size() != 7) {
-//			if (toolType.isHasHolidayCharge()) {
-//				if (HolidayService.isIndependenceDayInDateRange(checkoutDate, dueDate)) {
-//					chargeableDays += 1;
-//				}
-//
-//				if (HolidayService.isLaborDayInDateRange(checkoutDate, dueDate) && toolType.isHasWeekdayCharge()) {
-//					chargeableDays += 1;
-//				}
-//			}
-//		}
+		if (HolidayService.isLaborDayInDateRange(checkoutDate, dueDate) && !tool.getTooltype().isHasHolidayCharge()) {
+			numberOfChargeableDays -= 1;
+		}
 		
 		return numberOfChargeableDays;
 	}
