@@ -9,61 +9,70 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import com.jc0923.toolrental.domain.Checkout;
+import com.jc0923.toolrental.domain.RentalAgreement;
 import com.jc0923.toolrental.domain.Tool;
 import com.jc0923.toolrental.domain.ToolType;
-import com.jc0923.toolrental.util.Cart;
 
 public class CheckoutService {
 
-	public String createRentalAgreement(Checkout checkout) {
-		if (validateCheckout(checkout)) {
-			Tool toolToBeRented = Cart.toolInCart;
+	public RentalAgreement createRentalAgreement(Checkout checkout, Tool toolToBeRented) {
+		RentalAgreement rentalAgreement = null;
+		
+		if (validateCheckout(checkout) && toolToBeRented != null) {
+			rentalAgreement = new RentalAgreement();
+			rentalAgreement.setTool(toolToBeRented);
+			rentalAgreement.setCheckout(checkout);
+			rentalAgreement.setDailyRentalCharge(toolToBeRented.getTooltype().getDailyRentalCharge());
 			
 			LocalDate dueDate = calculateDueDate(checkout.getCheckoutDate(), checkout.getRentalDays());
-			checkout.setDueDate(dueDate);
+			rentalAgreement.setDueDate(dueDate);
 			
-			checkout.setDailyRentalCharge(toolToBeRented.getTooltype().getDailyRentalCharge());
+			int chargeDays = calculateChargeableDays(checkout.getCheckoutDate(), dueDate, toolToBeRented);
+			rentalAgreement.setChargeDays(chargeDays);
 			
-			int chargeableDays = calculateChargeableDays(checkout.getCheckoutDate(), checkout.getDueDate(), toolToBeRented);
-			checkout.setChargeableDays(chargeableDays);
+			BigDecimal preDiscountCharge = calculatePreDiscountCharge(chargeDays, rentalAgreement.getDailyRentalCharge());
+			rentalAgreement.setPreDiscountCharge(preDiscountCharge);
 			
-			//TODO retest preDiscountCharge after chargeableDays is working with holidays
-			BigDecimal preDiscountCharge = calculatePreDiscountCharge(checkout.getChargeableDays(), checkout.getDailyRentalCharge());
-			checkout.setPreDiscountCharge(preDiscountCharge);
+			BigDecimal discountAmount = calculateDiscountAmount(checkout.getDiscountPercentage(), preDiscountCharge);
+			rentalAgreement.setDiscountAmount(discountAmount);
 			
-			BigDecimal discountAmount = calculateDiscountAmount(checkout.getDiscountPercentage(), checkout.getPreDiscountCharge());
-			checkout.setDiscountAmount(discountAmount);
-			
-			BigDecimal finalCharge = calculateFinalCharge(checkout.getPreDiscountCharge(), checkout.getDiscountAmount());
-			checkout.setFinalCharge(finalCharge);
+			BigDecimal finalCharge = calculateFinalCharge(preDiscountCharge, discountAmount);
+			rentalAgreement.setFinalCharge(finalCharge);
+		}
+		
+		return rentalAgreement;
+	}
+	
+	public String generateRentalAgreementString(RentalAgreement rentalAgreement) {
+		if (rentalAgreement != null) {
 			
 			NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(Locale.US);
-			String dailyRentalChargeString = currencyFormat.format(checkout.getDailyRentalCharge().doubleValue());
-			String preDiscountChargeString = currencyFormat.format(checkout.getPreDiscountCharge().doubleValue());
-			String discountAmountString = currencyFormat.format(checkout.getDiscountAmount().doubleValue());
-			String finalChargeString = currencyFormat.format(checkout.getFinalCharge().doubleValue());
+			String dailyRentalChargeString = currencyFormat.format(rentalAgreement.getDailyRentalCharge().doubleValue());
+			String preDiscountChargeString = currencyFormat.format(rentalAgreement.getPreDiscountCharge().doubleValue());
+			String discountAmountString = currencyFormat.format(rentalAgreement.getDiscountAmount().doubleValue());
+			String finalChargeString = currencyFormat.format(rentalAgreement.getFinalCharge().doubleValue());
 			
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yy");
-			String checkoutDateDisplay = formatter.format(checkout.getCheckoutDate());
-			String dueDateDispay = formatter.format(checkout.getDueDate());
+			String checkoutDateDisplay = formatter.format(rentalAgreement.getCheckout().getCheckoutDate());
+			String dueDateDispay = formatter.format(rentalAgreement.getDueDate());
 			
-			StringBuilder rentalAgreement = new StringBuilder();
-			rentalAgreement.append("Rental Agreement\n");
-			rentalAgreement.append("================\n");
-			rentalAgreement.append("Tool code: " + toolToBeRented.getToolCode() + "\n");
-			rentalAgreement.append("Tool type: " + toolToBeRented.getTooltype().getToolTypeName() + "\n");
-			rentalAgreement.append("Brand: " + toolToBeRented.getBrand() + "\n");
-			rentalAgreement.append("Rental Days: " + checkout.getRentalDays() + "\n");
-			rentalAgreement.append("Checkout Date: " + checkoutDateDisplay + "\n");
-			rentalAgreement.append("Due Date: " + dueDateDispay + "\n");
-			rentalAgreement.append("Daily Rental Charge: " + dailyRentalChargeString + "\n");
-			rentalAgreement.append("Charge Days: " + checkout.getChargeableDays() + "\n");
-			rentalAgreement.append("Pre-Discount Charge: " + preDiscountChargeString + "\n");
-			rentalAgreement.append("Discount Percentage: " + checkout.getDiscountPercentage() + "%\n");
-			rentalAgreement.append("Discount Amount: " + discountAmountString + "\n");
-			rentalAgreement.append("Final Charge: " + finalChargeString + "\n");
+			StringBuilder agreement = new StringBuilder();
+			agreement.append("Rental Agreement\n");
+			agreement.append("================\n");
+			agreement.append("Tool code: " + rentalAgreement.getTool().getToolCode() + "\n");
+			agreement.append("Tool type: " + rentalAgreement.getTool().getTooltype().getToolTypeName() + "\n");
+			agreement.append("Brand: " + rentalAgreement.getTool().getBrand() + "\n");
+			agreement.append("Rental Days: " + rentalAgreement.getCheckout().getRentalDays() + "\n");
+			agreement.append("Checkout Date: " + checkoutDateDisplay + "\n");
+			agreement.append("Due Date: " + dueDateDispay + "\n");
+			agreement.append("Daily Rental Charge: " + dailyRentalChargeString + "\n");
+			agreement.append("Charge Days: " + rentalAgreement.getChargeDays() + "\n");
+			agreement.append("Pre-Discount Charge: " + preDiscountChargeString + "\n");
+			agreement.append("Discount Percentage: " + rentalAgreement.getCheckout().getDiscountPercentage() + "%\n");
+			agreement.append("Discount Amount: " + discountAmountString + "\n");
+			agreement.append("Final Charge: " + finalChargeString + "\n");
 			
-			return rentalAgreement.toString();
+			return agreement.toString();
 		} else {
 			return "You must enter values for Rental Days, Discount Percentage, and Checkout Date before creating a Rental Agreement";
 		}

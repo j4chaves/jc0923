@@ -4,8 +4,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.jc0923.toolrental.domain.Checkout;
+import com.jc0923.toolrental.domain.RentalAgreement;
 import com.jc0923.toolrental.interfaces.Displayable;
 import com.jc0923.toolrental.services.CheckoutService;
+import com.jc0923.toolrental.util.Cart;
 import com.jc0923.toolrental.util.UserInputHandler;
 
 public class CheckoutView implements Displayable {
@@ -70,7 +72,10 @@ public class CheckoutView implements Displayable {
 				
 			case 4:
 				UserInputHandler.clearConsole();
-				System.out.println(new CheckoutService().createRentalAgreement(checkout));
+				CheckoutService checkoutService = new CheckoutService();
+				RentalAgreement rentalAgreement = checkoutService.createRentalAgreement(checkout, Cart.toolInCart);
+				String rentalAgreementDisplay = checkoutService.generateRentalAgreementString(rentalAgreement);
+				System.out.println(rentalAgreementDisplay);
 				
 				break;
 

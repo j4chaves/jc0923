@@ -5,59 +5,31 @@ import java.time.LocalDate;
 
 public class RentalAgreement {
 	
-	private String toolCode;
-	private String toolType;
-	private String toolBrand;
-	private int rentalDays;
-	private LocalDate checkoutDate;
+	private Tool tool;
+	private Checkout checkout;
 	private LocalDate dueDate;
 	private BigDecimal dailyRentalCharge;
 	private int chargeDays;
 	private BigDecimal preDiscountCharge;
-	private int discountPercent;
 	private BigDecimal discountAmount;
 	private BigDecimal finalCharge;
 	
 	public RentalAgreement() {}
 
-	public String getToolCode() {
-		return toolCode;
+	public Tool getTool() {
+		return tool;
 	}
 
-	public void setToolCode(String toolCode) {
-		this.toolCode = toolCode;
+	public void setTool(Tool tool) {
+		this.tool = tool;
 	}
 
-	public String getToolType() {
-		return toolType;
+	public Checkout getCheckout() {
+		return checkout;
 	}
 
-	public void setToolType(String toolType) {
-		this.toolType = toolType;
-	}
-
-	public String getToolBrand() {
-		return toolBrand;
-	}
-
-	public void setToolBrand(String toolBrand) {
-		this.toolBrand = toolBrand;
-	}
-
-	public int getRentalDays() {
-		return rentalDays;
-	}
-
-	public void setRentalDays(int rentalDays) {
-		this.rentalDays = rentalDays;
-	}
-
-	public LocalDate getCheckoutDate() {
-		return checkoutDate;
-	}
-
-	public void setCheckoutDate(LocalDate checkoutDate) {
-		this.checkoutDate = checkoutDate;
+	public void setCheckout(Checkout checkout) {
+		this.checkout = checkout;
 	}
 
 	public LocalDate getDueDate() {
@@ -90,14 +62,6 @@ public class RentalAgreement {
 
 	public void setPreDiscountCharge(BigDecimal preDiscountCharge) {
 		this.preDiscountCharge = preDiscountCharge;
-	}
-
-	public int getDiscountPercent() {
-		return discountPercent;
-	}
-
-	public void setDiscountPercent(int discountPercent) {
-		this.discountPercent = discountPercent;
 	}
 
 	public BigDecimal getDiscountAmount() {
