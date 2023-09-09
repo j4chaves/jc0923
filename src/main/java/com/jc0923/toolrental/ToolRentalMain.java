@@ -8,7 +8,7 @@ public class ToolRentalMain
 {
     public static void main( String[] args )
     {
-    	Inventory.loadInventory();
+    	Inventory.loadInventory("src/main/resources/");
 //    	Cart.initializeEmptyCart();
     	UserInputHandler.clearConsole();
     	

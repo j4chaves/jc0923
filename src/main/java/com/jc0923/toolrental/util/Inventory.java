@@ -20,10 +20,10 @@ public class Inventory {
 	
 	private Inventory() {}
 
-	public static void loadInventory() {
+	public static void loadInventory(String pathToResources) {
 
 		// Load in tooltypes.json data
-		JSONArray toolTypesJSONArray = JSONFileReader.readJsonFile("src/main/resources/ToolTypes.json");
+		JSONArray toolTypesJSONArray = JSONFileReader.readJsonFile(pathToResources + "ToolTypes.json");
 		Map<String, ToolType> toolTypesMap = new HashMap<String, ToolType>();
 		Iterator<JSONObject> toolTypeIterator = toolTypesJSONArray.iterator();
 		while (toolTypeIterator.hasNext()) {
@@ -33,7 +33,7 @@ public class Inventory {
 		}
 
 		// Load in tools.json data
-		JSONArray toolsJSONArray = JSONFileReader.readJsonFile("src/main/resources/Tools.json");
+		JSONArray toolsJSONArray = JSONFileReader.readJsonFile(pathToResources + "Tools.json");
 		toolsList = new ArrayList<Tool>();
 		Iterator<JSONObject> toolIterator = toolsJSONArray.iterator();
 		while (toolIterator.hasNext()) {
