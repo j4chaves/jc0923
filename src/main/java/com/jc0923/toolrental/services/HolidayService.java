@@ -12,12 +12,32 @@ public class HolidayService {
 		
 		LocalDate holidayStartDateYear = LocalDate.of(startDate.getYear(), 7, 4);
 		
+		/*
+		 * If Independence Day falls on a weekend, adjust the date to be the closest weekday.
+		 * Saturday holiday is observed on Friday, Sunday holiday is observed on Monday.
+		 */
+		TemporalAdjuster moveToFriday = TemporalAdjusters.previous(DayOfWeek.FRIDAY);
+		TemporalAdjuster moveToMonday = TemporalAdjusters.next(DayOfWeek.MONDAY);
+		
+		if (holidayStartDateYear.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+			holidayStartDateYear = holidayStartDateYear.with(moveToFriday);
+		} else if (holidayStartDateYear.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+			holidayStartDateYear = holidayStartDateYear.with(moveToMonday);
+		}
+		
 		if (startDate.getYear() == endDate.getYear()) {
 				if (startDate.isBefore(holidayStartDateYear) && endDate.isAfter(holidayStartDateYear)) {
 					inDateRange = true;
 				}
 		} else {
 			LocalDate holidayEndDateYear = LocalDate.of(endDate.getYear(), 7, 4);
+			
+			if (holidayEndDateYear.getDayOfWeek().equals(DayOfWeek.SATURDAY)) {
+				holidayEndDateYear = holidayEndDateYear.with(moveToFriday);
+			} else if (holidayEndDateYear.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+				holidayEndDateYear = holidayEndDateYear.with(moveToMonday);
+			}
+			
 			if (startDate.isBefore(holidayStartDateYear) || endDate.isAfter(holidayEndDateYear)) {
 				inDateRange = true;
 			}
