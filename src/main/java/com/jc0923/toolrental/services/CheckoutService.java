@@ -87,7 +87,7 @@ public class CheckoutService {
 	private boolean validateCheckout(Checkout checkout) {
 		boolean isValid = false;
 		
-		if (checkout.getRentalDays() >= 1 && checkout.getCheckoutDate() != null &&
+		if (checkout != null && checkout.getRentalDays() >= 1 && checkout.getCheckoutDate() != null &&
 				(checkout.getDiscountPercentage() >= 0 && checkout.getDiscountPercentage() <= 100)) {
 			isValid = true;
 		}
