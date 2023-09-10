@@ -92,7 +92,7 @@ public class CheckoutView implements Displayable {
 	private void rentalDaysInput() {
 		boolean validInput = false;
 		while (!validInput) {
-			System.out.print("How many days will you be renting the tool(s): ");
+			System.out.print("How many days will you be renting the tool: ");
 			String input = UserInputHandler.getUserInput();
 			
 			if (UserInputHandler.isValidIntInput(input)) {
