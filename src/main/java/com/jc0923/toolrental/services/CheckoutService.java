@@ -1,6 +1,7 @@
 package com.jc0923.toolrental.services;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -139,6 +140,7 @@ public class CheckoutService {
 	
 	private BigDecimal calculatePreDiscountCharge(int chargeableDays, BigDecimal dailyRentalCharge) {
 		BigDecimal preDiscountCharge = dailyRentalCharge.multiply(BigDecimal.valueOf(chargeableDays));
+		preDiscountCharge = preDiscountCharge.setScale(2, RoundingMode.HALF_UP);
 		return preDiscountCharge;
 	}
 	
@@ -146,6 +148,7 @@ public class CheckoutService {
 		double discount = discountPercentage;
 		discount = discount / 100;
 		BigDecimal discountAmount = preDiscountCharge.multiply(BigDecimal.valueOf(discount));
+		discountAmount = discountAmount.setScale(2, RoundingMode.HALF_UP);
 		return discountAmount;
 	}
 	
