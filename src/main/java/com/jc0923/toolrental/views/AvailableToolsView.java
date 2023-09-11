@@ -16,7 +16,7 @@ public class AvailableToolsView implements Displayable {
 	public void display() {
 		System.out.println("Available Tools To Rent");
 
-		ArrayList<Tool> tools = new ArrayList<Tool>(Inventory.toolsList);
+		ArrayList<Tool> tools = new ArrayList<>(Inventory.toolsList);
 		numberOfAvailableTools = Inventory.toolsList.size();
 		for (int i = 0; i < numberOfAvailableTools; i++) {
 			System.out.print((i + 1) + ".\t");

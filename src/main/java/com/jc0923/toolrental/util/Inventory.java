@@ -16,7 +16,7 @@ import com.jc0923.toolrental.domain.converters.ToolTypeConverter;
 
 public class Inventory {
 
-	public static List<Tool> toolsList = new ArrayList<Tool>();
+	public static List<Tool> toolsList = new ArrayList<>();
 	
 	private Inventory() {}
 
@@ -24,7 +24,7 @@ public class Inventory {
 
 		// Load in tooltypes.json data
 		JSONArray toolTypesJSONArray = JSONFileReader.readJsonFile(pathToResources + "ToolTypes.json");
-		Map<String, ToolType> toolTypesMap = new HashMap<String, ToolType>();
+		Map<String, ToolType> toolTypesMap = new HashMap<>();
 		Iterator<JSONObject> toolTypeIterator = toolTypesJSONArray.iterator();
 		while (toolTypeIterator.hasNext()) {
 			JSONObject toolTypeJsonObject = (JSONObject) toolTypeIterator.next();
@@ -34,7 +34,7 @@ public class Inventory {
 
 		// Load in tools.json data
 		JSONArray toolsJSONArray = JSONFileReader.readJsonFile(pathToResources + "Tools.json");
-		toolsList = new ArrayList<Tool>();
+		toolsList = new ArrayList<>();
 		Iterator<JSONObject> toolIterator = toolsJSONArray.iterator();
 		while (toolIterator.hasNext()) {
 			JSONObject toolJsonObject = (JSONObject) toolIterator.next();
