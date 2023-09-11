@@ -101,7 +101,6 @@ public class CheckoutService {
 	}
 	
 	private int calculateChargeableDays(LocalDate checkoutDate, LocalDate dueDate, Tool tool) {
-		//TODO implement Holidays and holiday logic here to calculate
 		int numberOfChargeableDays = 0;
 		ToolType toolType = tool.getTooltype();
 		
