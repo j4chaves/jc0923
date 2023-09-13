@@ -10,7 +10,7 @@ public class CartView implements Displayable{
 	public void display() {
 		if (Cart.toolInCart == null) {
 			UserInputHandler.clearConsole();
-			System.out.println("Your cart is empty");
+			System.out.println("ERROR: Your cart is empty");
 			return;
 		} else {
 			System.out.println("Cart");
@@ -41,13 +41,11 @@ public class CartView implements Displayable{
 			} else if (input.equalsIgnoreCase("R")) {
 				Cart.toolInCart = null;
 				UserInputHandler.clearConsole();
-				System.out.println("Cart has been emptied");
-				System.out.println("\n\n");
+				System.out.println("Cart has been emptied\n");
 				display();
 			} else {
 				UserInputHandler.clearConsole();
-				System.out.println("Invalid Input");
-				System.out.println("\n\n");
+				System.out.println("ERROR: Invalid Input\n");
 				display();
 			}
 		}

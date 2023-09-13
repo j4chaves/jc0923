@@ -50,13 +50,13 @@ public class MainMenuView implements Displayable {
 			if (Cart.toolInCart != null) {
 				new CheckoutView().display();;
 			} else {
-				System.out.println("You cannot proceed to checkout with an empty cart");
+				System.out.println("ERROR: You cannot proceed to checkout with an empty cart");
 			}
 			break;
 
 		default:
 			UserInputHandler.clearConsole();
-			System.out.println("Invalid Menu Selection");
+			System.out.println("ERROR: Invalid Menu Selection");
 			break;
 
 		}

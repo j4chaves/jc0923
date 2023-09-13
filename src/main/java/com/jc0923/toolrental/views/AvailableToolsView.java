@@ -44,8 +44,7 @@ public class AvailableToolsView implements Displayable {
 				return;
 			} else {
 				UserInputHandler.clearConsole();
-				System.out.println("Invalid Input");
-				System.out.println("\n\n");
+				System.out.println("ERROR: Invalid Input\n");
 				display();
 			}
 		} else {
@@ -55,15 +54,14 @@ public class AvailableToolsView implements Displayable {
 			UserInputHandler.clearConsole();
 			
 			if (menuSelection > numberOfAvailableTools) {
-				System.out.println("Invalid Menu Selection");
-				System.out.println("\n\n");
+				System.out.println("ERROR: Invalid Menu Selection\n");
 				display();
 			} else {
 				if (Cart.toolInCart == null) {
 					Cart.toolInCart = Inventory.toolsList.get(menuSelection - 1);
 					System.out.println("Successfully added to cart!");
 				} else {
-					System.out.println("There is already a tool in your cart");
+					System.out.println("There is already a tool in your cart\n");
 					display();
 				}
 			}

@@ -45,8 +45,7 @@ public class CheckoutView implements Displayable {
 				return;
 			} else {
 				UserInputHandler.clearConsole();
-				System.out.println("Invalid Input");
-				System.out.println("\n\n");
+				System.out.println("ERROR: Invalid Input\n");
 				display();
 			}
 		}
@@ -81,8 +80,7 @@ public class CheckoutView implements Displayable {
 
 			default:
 				UserInputHandler.clearConsole();
-				System.out.println("Invalid Menu Selection");
-				System.out.println("\n\n");
+				System.out.println("ERROR: Invalid Menu Selection\n");
 				break;
 
 			}
@@ -92,7 +90,7 @@ public class CheckoutView implements Displayable {
 	private void rentalDaysInput() {
 		boolean validInput = false;
 		while (!validInput) {
-			System.out.print("How many days will you be renting the tool: ");
+			System.out.println("How many days will you be renting the tool: ");
 			String input = UserInputHandler.getUserInput();
 			
 			if (UserInputHandler.isValidIntInput(input)) {
@@ -105,8 +103,7 @@ public class CheckoutView implements Displayable {
 			}
 			
 			UserInputHandler.clearConsole();
-			System.out.println("ERROR: Number of rental days must be a whole number greater than 0");
-			System.out.println("");
+			System.out.println("ERROR: Number of rental days must be a whole number greater than 0\n");
 		}
 	}
 	
@@ -114,7 +111,7 @@ public class CheckoutView implements Displayable {
 	private void discountPercentageInput() {
 		boolean validInput = false;
 		while (!validInput) {
-			System.out.print("What is the discount percentage: ");
+			System.out.println("What is the discount percentage: ");
 			String input = UserInputHandler.getUserInput();
 			
 			if (UserInputHandler.isValidIntInput(input)) {
@@ -127,15 +124,14 @@ public class CheckoutView implements Displayable {
 			}
 			
 			UserInputHandler.clearConsole();
-			System.out.println("ERROR: Discount percentage must be a whole number between 0 and 100");
-			System.out.println("");
+			System.out.println("ERROR: Discount percentage must be a whole number between 0 and 100\n");
 		}
 	}
 	
 	private void checkoutDateInput() {
 		boolean validInput = false;
 		while (!validInput) {
-			System.out.print("What day will you be checking out the equipment (date format: mm/dd/yyyy): ");
+			System.out.println("What day will you be checking out the equipment (date format: mm/dd/yyyy): ");
 			String input = UserInputHandler.getUserInput();
 			
 			if (UserInputHandler.isValidDateInput(input)) {
@@ -146,8 +142,7 @@ public class CheckoutView implements Displayable {
 			}
 			
 			UserInputHandler.clearConsole();
-			System.out.println("ERROR: Date should be formatted as mm/dd/yyyy and should be present or future date");
-			System.out.println("");
+			System.out.println("ERROR: Date should be formatted as mm/dd/yyyy and should be present or future date\n");
 		}
 	}
 
