@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -30,7 +31,7 @@ public class CheckoutServiceTest {
 	@DisplayName("CheckoutService Valid Data Test")
 	@CsvFileSource(resources = "/specTestCases.csv", numLinesToSkip = 1)
 	public void checkoutServiceValidDataTest(String toolCode, String checkoutDate,
-			int rentalDays, int discountPercentage) {
+			int rentalDays, int discountPercentage, double expectedFinalCharge) {
 		Checkout checkout = new Checkout();
 		RentalAgreement rentalAgreement = new RentalAgreement();
 		CheckoutService checkoutService = new CheckoutService();
@@ -53,6 +54,7 @@ public class CheckoutServiceTest {
 		assertEquals(rentalAgreement.getTool().getToolCode(), toolCode);
 		assertEquals(rentalAgreement.getCheckout().getRentalDays(), rentalDays);
 		assertEquals(rentalAgreement.getCheckout().getDiscountPercentage(), discountPercentage);
+		assertEquals(rentalAgreement.getFinalCharge(), BigDecimal.valueOf(expectedFinalCharge));
 		
 		assertNotNull(checkoutService.generateRentalAgreementString(rentalAgreement));
 		
