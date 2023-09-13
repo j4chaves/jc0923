@@ -99,6 +99,7 @@ public class CheckoutView implements Displayable {
 				int rentalDays = Integer.parseInt(input);
 				if (rentalDays >= 1) {
 					this.checkout.setRentalDays(rentalDays);
+					UserInputHandler.clearConsole();
 					break;
 				}
 			}
@@ -120,6 +121,7 @@ public class CheckoutView implements Displayable {
 				int discountPercentage = Integer.parseInt(input);
 				if (discountPercentage >= 0 && discountPercentage <= 100) {
 					this.checkout.setDiscountPercentage(discountPercentage);
+					UserInputHandler.clearConsole();
 					break;
 				}
 			}
@@ -139,6 +141,7 @@ public class CheckoutView implements Displayable {
 			if (UserInputHandler.isValidDateInput(input)) {
 				LocalDate checkoutDate = LocalDate.parse(input, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
 				this.checkout.setCheckoutDate(checkoutDate);
+				UserInputHandler.clearConsole();
 				break;
 			}
 			
