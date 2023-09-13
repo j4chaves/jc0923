@@ -75,7 +75,7 @@ public class CheckoutView implements Displayable {
 				RentalAgreement rentalAgreement = checkoutService.createRentalAgreement(checkout, Cart.toolInCart);
 				String rentalAgreementDisplay = checkoutService.generateRentalAgreementString(rentalAgreement);
 				System.out.println(rentalAgreementDisplay);
-				
+				System.out.println("\n\n");
 				break;
 
 			default:
