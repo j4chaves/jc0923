@@ -6,6 +6,8 @@ import java.time.format.DateTimeParseException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class UserInputHandler {
 
 	public static String getUserInput() {
@@ -22,17 +24,7 @@ public class UserInputHandler {
 	}
 	
 	public static boolean isValidIntInput(String input) {
-		boolean isValid;
-		
-		try {
-			Integer integer = Integer.parseInt(input);
-			isValid = true;
-		} catch (NumberFormatException e) {
-			// TODO - Redo this.  try/catch should not be used for logic like this
-			isValid = false;
-		}
-		
-		return isValid;
+		return StringUtils.isNumeric(input);
 	}
 	
 	public static boolean isValidDateInput(String input) {
